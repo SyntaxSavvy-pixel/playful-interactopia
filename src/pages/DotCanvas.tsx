@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Eraser, PaintBucket } from 'lucide-react';
+import { Eraser, PaintBucket, ArrowLeft } from 'lucide-react';
 
 const DotCanvas = () => {
   const [dots, setDots] = useState<boolean[][]>(
@@ -38,15 +39,23 @@ const DotCanvas = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 animate-in fade-in duration-500">
-      <div className="text-center space-y-8">
-        <h1 className="text-4xl font-bold mb-8">Dot Canvas</h1>
+    <div className="min-h-screen flex flex-col items-center justify-center p-4 page-transition">
+      <div className="w-full max-w-4xl mx-auto">
+        <div className="flex items-center mb-8">
+          <Link to="/" className="mr-4">
+            <Button variant="ghost" size="icon">
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+          </Link>
+          <h1 className="text-3xl font-bold">Dot Canvas</h1>
+        </div>
 
         <div className="experiment-card max-w-2xl mx-auto p-8">
           <div 
-            className="grid gap-1 mb-8"
+            className="grid gap-1 mb-8 mx-auto"
             style={{ 
               gridTemplateColumns: `repeat(20, minmax(0, 1fr))`,
+              maxWidth: "600px"
             }}
             onMouseLeave={handleMouseUp}
             onMouseUp={handleMouseUp}
@@ -58,7 +67,7 @@ const DotCanvas = () => {
                   className={`
                     aspect-square rounded-full transition-all duration-200
                     ${dot ? 'bg-primary scale-100' : 'bg-secondary scale-90'}
-                    hover:scale-100
+                    hover:scale-100 cursor-pointer
                   `}
                   onMouseDown={() => handleMouseDown(rowIndex, colIndex)}
                   onMouseEnter={() => handleMouseEnter(rowIndex, colIndex)}
@@ -92,7 +101,7 @@ const DotCanvas = () => {
             </Button>
           </div>
 
-          <p className="mt-6 text-sm text-muted-foreground">
+          <p className="mt-6 text-sm text-muted-foreground text-center">
             Click and drag to draw patterns with dots!
           </p>
         </div>
