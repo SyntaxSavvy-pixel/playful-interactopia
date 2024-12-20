@@ -6,7 +6,7 @@ const experiments = [
     title: "Gradient Generator",
     description: "Create beautiful color gradients with a click",
     icon: <Paintbrush className="w-8 h-8" />,
-    path: "/gradient",
+    path: "/gradient-generator",
     color: "from-pink-500 to-violet-500"
   },
   {
@@ -20,7 +20,7 @@ const experiments = [
     title: "Dot Canvas",
     description: "Draw with dots in this interactive canvas",
     icon: <MousePointer className="w-8 h-8" />,
-    path: "/canvas",
+    path: "/dot-canvas",
     color: "from-green-500 to-emerald-500"
   }
 ];
