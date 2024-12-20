@@ -39,8 +39,8 @@ const DotCanvas = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 page-transition">
-      <div className="w-full max-w-4xl mx-auto">
+    <div className="min-h-screen p-6 bg-background">
+      <div className="max-w-4xl mx-auto">
         <div className="flex items-center mb-8">
           <Link to="/" className="mr-4">
             <Button variant="ghost" size="icon">
@@ -50,12 +50,15 @@ const DotCanvas = () => {
           <h1 className="text-3xl font-bold">Dot Canvas</h1>
         </div>
 
-        <div className="experiment-card max-w-2xl mx-auto p-8">
+        <div className="bg-card rounded-xl shadow-lg p-8">
           <div 
             className="grid gap-1 mb-8 mx-auto"
             style={{ 
               gridTemplateColumns: `repeat(20, minmax(0, 1fr))`,
-              maxWidth: "600px"
+              maxWidth: "600px",
+              backgroundColor: "hsl(var(--secondary))",
+              padding: "1rem",
+              borderRadius: "0.5rem"
             }}
             onMouseLeave={handleMouseUp}
             onMouseUp={handleMouseUp}
@@ -66,7 +69,7 @@ const DotCanvas = () => {
                   key={`${rowIndex}-${colIndex}`}
                   className={`
                     aspect-square rounded-full transition-all duration-200
-                    ${dot ? 'bg-primary scale-100' : 'bg-secondary scale-90'}
+                    ${dot ? 'bg-primary scale-100' : 'bg-background scale-90'}
                     hover:scale-100 cursor-pointer
                   `}
                   onMouseDown={() => handleMouseDown(rowIndex, colIndex)}
@@ -76,7 +79,7 @@ const DotCanvas = () => {
             ))}
           </div>
 
-          <div className="flex justify-center gap-4">
+          <div className="flex flex-wrap justify-center gap-4">
             <Button
               variant={isErasing ? 'outline' : 'default'}
               className="gap-2"

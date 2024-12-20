@@ -2,10 +2,9 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, RefreshCcw, Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 
 const GradientGenerator = () => {
-  const { toast } = useToast();
   const [gradient, setGradient] = useState({
     color1: "#FF5F6D",
     color2: "#FFC371",
@@ -32,14 +31,11 @@ const GradientGenerator = () => {
   const copyToClipboard = () => {
     const cssCode = `background: linear-gradient(${gradient.angle}deg, ${gradient.color1}, ${gradient.color2});`;
     navigator.clipboard.writeText(cssCode);
-    toast({
-      title: "Copied!",
-      description: "CSS code copied to clipboard",
-    });
+    toast.success("CSS code copied to clipboard");
   };
 
   return (
-    <div className="min-h-screen p-6 page-transition">
+    <div className="min-h-screen p-6 bg-background">
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center mb-8">
           <Link to="/" className="mr-4">
@@ -59,12 +55,12 @@ const GradientGenerator = () => {
           />
 
           <div className="flex flex-wrap gap-4">
-            <Button onClick={generateNewGradient}>
-              <RefreshCcw className="mr-2 h-4 w-4" />
+            <Button onClick={generateNewGradient} className="gap-2">
+              <RefreshCcw className="h-4 w-4" />
               Generate New
             </Button>
-            <Button variant="outline" onClick={copyToClipboard}>
-              <Copy className="mr-2 h-4 w-4" />
+            <Button variant="outline" onClick={copyToClipboard} className="gap-2">
+              <Copy className="h-4 w-4" />
               Copy CSS
             </Button>
           </div>
