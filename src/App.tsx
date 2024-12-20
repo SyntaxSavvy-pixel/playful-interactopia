@@ -1,26 +1,27 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import GradientGenerator from "./pages/GradientGenerator";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Toaster } from '@/components/ui/sonner';
+import Index from './pages/Index';
+import GradientGenerator from './pages/GradientGenerator';
+import Counter from './pages/Counter';
+import DotCanvas from './pages/DotCanvas';
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Router>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/gradient" element={<GradientGenerator />} />
+          <Route path="/gradient-generator" element={<GradientGenerator />} />
+          <Route path="/counter" element={<Counter />} />
+          <Route path="/dot-canvas" element={<DotCanvas />} />
         </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+      </Router>
+      <Toaster />
+    </QueryClientProvider>
+  );
+}
 
 export default App;
