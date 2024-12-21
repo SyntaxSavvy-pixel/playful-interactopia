@@ -18,6 +18,9 @@ export default {
       }
     },
     extend: {
+      borderColor: {
+        border: 'hsl(var(--border))'
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
