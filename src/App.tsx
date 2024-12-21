@@ -5,6 +5,7 @@ import Index from './pages/Index';
 import GradientGenerator from './pages/GradientGenerator';
 import Counter from './pages/Counter';
 import DotCanvas from './pages/DotCanvas';
+import BalloonFrenzy from './pages/BalloonFrenzy';
 
 const queryClient = new QueryClient();
 
@@ -17,6 +18,7 @@ function App() {
           <Route path="/gradient-generator" element={<GradientGenerator />} />
           <Route path="/counter" element={<Counter />} />
           <Route path="/dot-canvas" element={<DotCanvas />} />
+          <Route path="/balloon-frenzy" element={<BalloonFrenzy />} />
         </Routes>
       </Router>
       <Toaster />
