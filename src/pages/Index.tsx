@@ -11,35 +11,35 @@ const experiments = [
     description: "Create beautiful color gradients with a click",
     icon: <Paintbrush className="w-8 h-8" />,
     path: "/gradient-generator",
-    gradient: "from-pink-500/20 to-violet-500/20"
+    gradient: "from-pink-500/20 via-purple-500/20 to-indigo-500/20"
   },
   {
     title: "Global Counter",
     description: "Join everyone in counting to infinity",
     icon: <Hash className="w-8 h-8" />,
     path: "/counter",
-    gradient: "from-blue-500/20 to-cyan-500/20"
+    gradient: "from-blue-500/20 via-cyan-500/20 to-teal-500/20"
   },
   {
     title: "Dot Canvas",
     description: "Draw with dots in this interactive canvas",
     icon: <MousePointer className="w-8 h-8" />,
     path: "/dot-canvas",
-    gradient: "from-green-500/20 to-emerald-500/20"
+    gradient: "from-green-500/20 via-emerald-500/20 to-teal-500/20"
   },
   {
     title: "Balloon Frenzy",
     description: "Pop balloons in this addictive arcade game",
     icon: <Bomb className="w-8 h-8" />,
     path: "/balloon-frenzy",
-    gradient: "from-purple-500/20 to-pink-500/20"
+    gradient: "from-purple-500/20 via-fuchsia-500/20 to-pink-500/20"
   },
   {
     title: "Wordly Wonders",
     description: "Guess the word in this addictive word game",
     icon: <KeySquare className="w-8 h-8" />,
     path: "/wordly-wonders",
-    gradient: "from-yellow-500/20 to-orange-500/20"
+    gradient: "from-yellow-500/20 via-amber-500/20 to-orange-500/20"
   }
 ];
 
@@ -50,7 +50,7 @@ interface FloatingParticleProps {
 
 const FloatingParticle: React.FC<FloatingParticleProps> = ({ delay = 0, style }) => (
   <motion.div
-    className="absolute w-2 h-2 rounded-full bg-primary/10"
+    className="absolute w-2 h-2 rounded-full bg-primary/20"
     animate={{
       y: [-20, 20],
       opacity: [0.5, 0.8, 0.5],
@@ -69,7 +69,7 @@ const Index = () => {
   const { theme, setTheme } = useTheme();
 
   return (
-    <div className="min-h-screen p-6 sm:p-12 relative overflow-hidden bg-gradient-to-br from-background to-accent/5">
+    <div className="min-h-screen p-6 sm:p-12 relative overflow-hidden">
       {/* Floating particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {[...Array(20)].map((_, i) => (
@@ -95,15 +95,18 @@ const Index = () => {
           variant="ghost"
           size="icon"
           onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-          className="rounded-full"
+          className="rounded-full hover:bg-primary/20"
         >
-          {theme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+          {theme === "dark" ? 
+            <Sun className="h-5 w-5 animate-float text-yellow-500" /> : 
+            <Moon className="h-5 w-5 animate-float text-primary" />
+          }
         </Button>
       </motion.div>
 
       <header className="max-w-4xl mx-auto text-center mb-12 relative z-10">
         <motion.h1 
-          className="text-4xl sm:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-foreground"
+          className="text-4xl sm:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary via-purple-500 to-pink-500"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -135,11 +138,10 @@ const Index = () => {
           >
             <Link to={experiment.path}>
               <motion.div 
-                className="group relative overflow-hidden rounded-xl border bg-card/50 backdrop-blur-sm p-6 transition-all duration-300 hover:shadow-xl hover:scale-[1.02]"
+                className={`experiment-card group ${experiment.gradient}`}
                 whileHover={{ y: -5 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <div className={`absolute inset-0 bg-gradient-to-br ${experiment.gradient} opacity-50 group-hover:opacity-100 transition-opacity duration-300`} />
                 <div className="relative">
                   <motion.div 
                     className="mb-4 text-primary transform-gpu transition-transform duration-300 group-hover:scale-110"

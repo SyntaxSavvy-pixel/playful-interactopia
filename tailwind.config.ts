@@ -60,6 +60,10 @@ export default {
           "0%, 100%": { transform: "translateX(0)" },
           "25%": { transform: "translateX(-2px)" },
           "75%": { transform: "translateX(2px)" },
+        },
+        "float": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-10px)" },
         }
       },
       animation: {
@@ -67,6 +71,7 @@ export default {
         "accordion-up": "accordion-up 0.2s ease-out",
         "pop": "pop 0.3s ease-in-out",
         "shake": "shake 0.3s ease-in-out",
+        "float": "float 3s ease-in-out infinite",
       },
     },
   },
