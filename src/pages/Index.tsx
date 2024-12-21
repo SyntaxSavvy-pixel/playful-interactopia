@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Paintbrush, Hash, MousePointer, Balloon } from "lucide-react";
+import { Paintbrush, Hash, MousePointer, Bomb } from "lucide-react";
 
 const experiments = [
   {
@@ -26,7 +26,7 @@ const experiments = [
   {
     title: "Balloon Frenzy",
     description: "Pop balloons in this addictive arcade game",
-    icon: <Balloon className="w-8 h-8" />,
+    icon: <Bomb className="w-8 h-8" />,
     path: "/balloon-frenzy",
     color: "from-purple-500 to-pink-500"
   }
