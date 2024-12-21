@@ -21,6 +21,26 @@ const WordlyWonders = () => {
     console.log('Target word:', randomWord); // For debugging
   }, []);
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (gameOver) return;
+      
+      if (event.key === 'Enter') {
+        handleKeyPress('ENTER');
+      } else if (event.key === 'Backspace') {
+        handleKeyPress('BACKSPACE');
+      } else {
+        const key = event.key.toUpperCase();
+        if (/^[A-Z]$/.test(key)) {
+          handleKeyPress(key);
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [currentGuess, gameOver]);
+
   const checkGuess = (guess: string): GuessResult => {
     const result: GuessResult = [];
     const targetLetters = [...targetWord];
@@ -29,18 +49,18 @@ const WordlyWonders = () => {
     [...guess].forEach((letter, i) => {
       if (letter === targetWord[i]) {
         result[i] = 'correct';
-        targetLetters[i] = '#'; // Mark as used
+        targetLetters[i] = '#';
       }
     });
     
     // Second pass: mark present letters
     [...guess].forEach((letter, i) => {
-      if (result[i]) return; // Skip if already marked
+      if (result[i]) return;
       
       const targetIndex = targetLetters.indexOf(letter);
       if (targetIndex !== -1) {
         result[i] = 'present';
-        targetLetters[targetIndex] = '#'; // Mark as used
+        targetLetters[targetIndex] = '#';
       } else {
         result[i] = 'absent';
       }

@@ -39,32 +39,32 @@ const WordGrid = ({ guesses, currentGuess, targetWord }: WordGridProps) => {
     const result = checkGuess(guess);
     switch (result[index]) {
       case 'correct':
-        return 'bg-green-500 border-green-600';
+        return 'bg-green-500 border-green-600 text-white scale-105';
       case 'present':
-        return 'bg-yellow-500 border-yellow-600';
+        return 'bg-yellow-500 border-yellow-600 text-white scale-105';
       case 'absent':
-        return 'bg-gray-500 border-gray-600';
+        return 'bg-gray-500 border-gray-600 text-white scale-105';
       default:
         return 'bg-transparent';
     }
   };
 
   return (
-    <div className="grid grid-rows-6 gap-1">
+    <div className="grid grid-rows-6 gap-1.5">
       {Array.from({ length: 6 }).map((_, rowIndex) => (
-        <div key={rowIndex} className="grid grid-cols-5 gap-1">
+        <div key={rowIndex} className="grid grid-cols-5 gap-1.5">
           {Array.from({ length: 5 }).map((_, colIndex) => {
             const isCurrentRow = rowIndex === guesses.length;
             const letter = isCurrentRow
               ? currentGuess[colIndex]
               : guesses[rowIndex]?.[colIndex];
             
-            const baseClasses = "w-14 h-14 border-2 flex items-center justify-center text-2xl font-bold uppercase transition-all duration-300";
+            const baseClasses = "w-14 h-14 border-2 flex items-center justify-center text-2xl font-bold uppercase transition-all duration-500";
             const letterClasses = letter
               ? `${baseClasses} ${
                   guesses[rowIndex]
                     ? getBackgroundColor(letter, colIndex, guesses[rowIndex])
-                    : 'border-gray-300 text-primary'
+                    : 'border-gray-300 text-primary animate-pop'
                 }`
               : `${baseClasses} border-gray-300`;
 
