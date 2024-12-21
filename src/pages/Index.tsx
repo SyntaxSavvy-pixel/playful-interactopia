@@ -43,7 +43,12 @@ const experiments = [
   }
 ];
 
-const FloatingParticle = ({ delay = 0 }) => (
+interface FloatingParticleProps {
+  delay?: number;
+  style?: React.CSSProperties;
+}
+
+const FloatingParticle: React.FC<FloatingParticleProps> = ({ delay = 0, style }) => (
   <motion.div
     className="absolute w-2 h-2 rounded-full bg-primary/10"
     animate={{
@@ -56,6 +61,7 @@ const FloatingParticle = ({ delay = 0 }) => (
       repeatType: "reverse",
       delay,
     }}
+    style={style}
   />
 );
 
