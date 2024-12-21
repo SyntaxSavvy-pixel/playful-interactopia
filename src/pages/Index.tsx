@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Paintbrush, Hash, MousePointer, Bomb } from "lucide-react";
+import { Paintbrush, Hash, MousePointer, Bomb, KeySquare } from "lucide-react";
 
 const experiments = [
   {
@@ -29,6 +29,13 @@ const experiments = [
     icon: <Bomb className="w-8 h-8" />,
     path: "/balloon-frenzy",
     color: "from-purple-500 to-pink-500"
+  },
+  {
+    title: "Wordly Wonders",
+    description: "Guess the word in this addictive word game",
+    icon: <KeySquare className="w-8 h-8" />,
+    path: "/wordly-wonders",
+    color: "from-yellow-500 to-orange-500"
   }
 ];
 
