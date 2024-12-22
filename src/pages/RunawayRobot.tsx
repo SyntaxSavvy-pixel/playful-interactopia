@@ -1,8 +1,8 @@
-import { useEffect, useState, useRef } from 'react';
+import { useState } from 'react';
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
-import { Shield, Zap, Trophy, Timer, ArrowLeft } from 'lucide-react';
+import { Trophy, Timer, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { GameCanvas } from '@/components/runaway/GameCanvas';
 import { GameHUD } from '@/components/runaway/GameHUD';
@@ -13,29 +13,28 @@ const RunawayRobot = () => {
   const { toast } = useToast();
   const [gameState, setGameState] = useState<'menu' | 'playing' | 'paused' | 'gameOver'>('menu');
   const [score, setScore] = useState(0);
-  const [highScore, setHighScore] = useState(0);
+  const [coins, setCoins] = useState(0);
+  const [highScore, setHighScore] = useState(() => {
+    const saved = localStorage.getItem('runawayRobotHighScore');
+    return saved ? parseInt(saved) : 0;
+  });
+
   const {
     position,
     velocity,
     upgrades,
-    handleKeyDown,
-    handleKeyUp,
+    ghosts,
+    coins: coinsList,
+    environment,
     resetGame,
-    updateGame
+    cycleEnvironment
   } = useGameState();
-
-  useEffect(() => {
-    // Load high score from localStorage
-    const savedHighScore = localStorage.getItem('runawayRobotHighScore');
-    if (savedHighScore) {
-      setHighScore(parseInt(savedHighScore));
-    }
-  }, []);
 
   const startGame = () => {
     setGameState('playing');
     resetGame();
     setScore(0);
+    setCoins(0);
     toast({
       title: "Game Started!",
       description: "Guide your robot to freedom!",
@@ -78,11 +77,17 @@ const RunawayRobot = () => {
                 position={position}
                 velocity={velocity}
                 upgrades={upgrades}
+                ghosts={ghosts}
+                coins={coinsList}
+                environment={environment}
               />
               <GameHUD
                 score={score}
+                coins={coins}
                 upgrades={upgrades}
+                environment={environment}
                 onPause={() => setGameState('paused')}
+                onChangeEnvironment={cycleEnvironment}
               />
             </motion.div>
           )}
@@ -115,6 +120,7 @@ const RunawayRobot = () => {
             >
               <h2 className="text-4xl font-bold">Game Over!</h2>
               <p className="text-xl">Final Score: {score}</p>
+              <p className="text-lg">Coins Collected: {coins}</p>
               <p className="text-lg">High Score: {highScore}</p>
               <div className="space-x-4">
                 <Button onClick={startGame}>Play Again</Button>

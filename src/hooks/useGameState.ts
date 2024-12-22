@@ -15,6 +15,18 @@ interface Upgrades {
   speedBoost: boolean;
 }
 
+interface Ghost {
+  x: number;
+  y: number;
+  timestamp: number;
+}
+
+interface Coin {
+  x: number;
+  y: number;
+  collected: boolean;
+}
+
 export const useGameState = () => {
   const [position, setPosition] = useState<Position>({ x: 400, y: 300 });
   const [velocity, setVelocity] = useState<Velocity>({ x: 0, y: 0 });
@@ -22,7 +34,11 @@ export const useGameState = () => {
     shield: false,
     speedBoost: false,
   });
+  const [ghosts, setGhosts] = useState<Ghost[]>([]);
+  const [coins, setCoins] = useState<Coin[]>([]);
+  const [environment, setEnvironment] = useState<'jungle' | 'neon' | 'space'>('jungle');
   const [keys, setKeys] = useState<Set<string>>(new Set());
+  const [lastGhostTime, setLastGhostTime] = useState(Date.now());
 
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
     setKeys(prev => new Set(prev).add(event.key));
@@ -36,25 +52,79 @@ export const useGameState = () => {
     });
   }, []);
 
+  const spawnCoin = useCallback(() => {
+    const newCoin: Coin = {
+      x: Math.random() * 760 + 20, // Keep within canvas bounds
+      y: Math.random() * 560 + 20,
+      collected: false
+    };
+    setCoins(prev => [...prev, newCoin]);
+  }, []);
+
+  const checkCoinCollisions = useCallback(() => {
+    setCoins(prevCoins => 
+      prevCoins.map(coin => {
+        if (!coin.collected) {
+          const dx = coin.x - position.x;
+          const dy = coin.y - position.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          if (distance < 30) { // Collection radius
+            return { ...coin, collected: true };
+          }
+        }
+        return coin;
+      })
+    );
+  }, [position]);
+
   const updateGame = useCallback(() => {
+    const now = Date.now();
+    
+    // Update position
     setPosition(prev => {
       const speed = upgrades.speedBoost ? 8 : 5;
       const newX = prev.x + velocity.x * speed;
       const newY = prev.y + velocity.y * speed;
 
-      // Add boundary checks here
       return {
         x: Math.max(20, Math.min(780, newX)),
         y: Math.max(20, Math.min(580, newY)),
       };
     });
-  }, [velocity, upgrades.speedBoost]);
+
+    // Record ghost every 30 seconds
+    if (now - lastGhostTime > 30000) {
+      setGhosts(prev => [...prev, { x: position.x, y: position.y, timestamp: now }]);
+      setLastGhostTime(now);
+    }
+
+    // Check collisions
+    checkCoinCollisions();
+
+    // Spawn new coin occasionally
+    if (Math.random() < 0.01) { // 1% chance each frame
+      spawnCoin();
+    }
+  }, [velocity, upgrades.speedBoost, position, lastGhostTime, checkCoinCollisions, spawnCoin]);
+
+  const cycleEnvironment = useCallback(() => {
+    setEnvironment(prev => {
+      switch (prev) {
+        case 'jungle': return 'neon';
+        case 'neon': return 'space';
+        case 'space': return 'jungle';
+      }
+    });
+  }, []);
 
   const resetGame = useCallback(() => {
     setPosition({ x: 400, y: 300 });
     setVelocity({ x: 0, y: 0 });
     setUpgrades({ shield: false, speedBoost: false });
+    setGhosts([]);
+    setCoins([]);
     setKeys(new Set());
+    setLastGhostTime(Date.now());
   }, []);
 
   useEffect(() => {
@@ -87,9 +157,13 @@ export const useGameState = () => {
     position,
     velocity,
     upgrades,
+    ghosts,
+    coins,
+    environment,
     handleKeyDown,
     handleKeyUp,
     resetGame,
     updateGame,
+    cycleEnvironment,
   };
 };
