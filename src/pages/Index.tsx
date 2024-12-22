@@ -1,10 +1,9 @@
 import { Link } from "react-router-dom";
 import { Paintbrush, Hash, MousePointer, Bomb, KeySquare, Zap } from "lucide-react";
 import { motion } from "framer-motion";
-import { useTheme } from "next-themes";
-import { Button } from "@/components/ui/button";
-import { Sun, Moon, Github } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Profile } from "@/components/home/Profile";
+import { ThemeToggle } from "@/components/home/ThemeToggle";
+import { ExperimentCard } from "@/components/home/ExperimentCard";
 
 const experiments = [
   {
@@ -74,58 +73,10 @@ const FloatingParticle: React.FC<FloatingParticleProps> = ({ delay = 0, style })
 );
 
 const Index = () => {
-  const { theme, setTheme } = useTheme();
-
   return (
     <div className="min-h-screen p-6 sm:p-12 relative overflow-hidden">
-      {/* Profile Section */}
-      <motion.div 
-        className="absolute top-4 left-4 flex items-center gap-4"
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.2 }}
-      >
-        <Avatar className="h-16 w-16 ring-2 ring-primary/50 animate-float">
-          <AvatarImage src="https://api.dicebear.com/7.x/pixel-art/svg?seed=lovable" />
-          <AvatarFallback>LV</AvatarFallback>
-        </Avatar>
-        <div className="hidden sm:block">
-          <h3 className="font-bold text-lg bg-gradient-to-r from-primary to-purple-400 bg-clip-text text-transparent">
-            Lovable Player
-          </h3>
-          <p className="text-sm text-muted-foreground">Interactive Explorer</p>
-        </div>
-      </motion.div>
-
-      {/* Theme toggle */}
-      <motion.div 
-        className="absolute top-4 right-4 flex gap-2"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
-      >
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-          className="rounded-full hover:bg-primary/20 border-primary/20"
-        >
-          {theme === "dark" ? 
-            <Sun className="h-5 w-5 animate-float text-yellow-500" /> : 
-            <Moon className="h-5 w-5 animate-float text-primary" />
-          }
-        </Button>
-        <Button
-          variant="outline"
-          size="icon"
-          className="rounded-full hover:bg-primary/20 border-primary/20"
-          asChild
-        >
-          <a href="https://github.com/your-username" target="_blank" rel="noopener noreferrer">
-            <Github className="h-5 w-5" />
-          </a>
-        </Button>
-      </motion.div>
+      <Profile />
+      <ThemeToggle />
 
       {/* Floating particles with enhanced glow */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -175,29 +126,7 @@ const Index = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 + 0.5 }}
           >
-            <Link to={experiment.path}>
-              <motion.div 
-                className={`experiment-card group bg-gradient-to-br ${experiment.gradient}`}
-                whileHover={{ y: -5 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <div className="relative">
-                  <motion.div 
-                    className="mb-4 text-primary transform-gpu transition-transform duration-300 group-hover:scale-110"
-                    whileHover={{ rotate: 360 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    {experiment.icon}
-                  </motion.div>
-                  <h2 className="text-2xl font-semibold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary-foreground">
-                    {experiment.title}
-                  </h2>
-                  <p className="text-muted-foreground group-hover:text-foreground transition-colors duration-300">
-                    {experiment.description}
-                  </p>
-                </div>
-              </motion.div>
-            </Link>
+            <ExperimentCard {...experiment} />
           </motion.div>
         ))}
       </motion.div>
