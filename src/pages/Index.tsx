@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Paintbrush, Hash, MousePointer, Bomb, KeySquare, Zap } from "lucide-react";
+import { Paintbrush, Hash, MousePointer, Bomb, KeySquare, Zap, Ghost } from "lucide-react";
 import { motion } from "framer-motion";
 import { Profile } from "@/components/home/Profile";
 import { ThemeToggle } from "@/components/home/ThemeToggle";
@@ -47,30 +47,15 @@ const experiments = [
     icon: <Zap className="w-8 h-8" />,
     path: "/runaway-robot",
     gradient: "from-violet-500/20 via-purple-500/20 to-fuchsia-500/20"
+  },
+  {
+    title: "Echo Runner",
+    description: "Race against your past self in this endless runner",
+    icon: <Ghost className="w-8 h-8" />,
+    path: "/echo-runner",
+    gradient: "from-cyan-500/20 via-blue-500/20 to-indigo-500/20"
   }
 ];
-
-interface FloatingParticleProps {
-  delay?: number;
-  style?: React.CSSProperties;
-}
-
-const FloatingParticle: React.FC<FloatingParticleProps> = ({ delay = 0, style }) => (
-  <motion.div
-    className="absolute w-2 h-2 rounded-full bg-primary/20"
-    animate={{
-      y: [-20, 20],
-      opacity: [0.5, 0.8, 0.5],
-    }}
-    transition={{
-      duration: 3,
-      repeat: Infinity,
-      repeatType: "reverse",
-      delay,
-    }}
-    style={style}
-  />
-);
 
 const Index = () => {
   return (
@@ -78,12 +63,21 @@ const Index = () => {
       <Profile />
       <ThemeToggle />
 
-      {/* Floating particles with enhanced glow */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {[...Array(20)].map((_, i) => (
-          <FloatingParticle
+          <motion.div
             key={i}
-            delay={i * 0.2}
+            className="absolute w-2 h-2 rounded-full bg-primary/20"
+            animate={{
+              y: [-20, 20],
+              opacity: [0.5, 0.8, 0.5],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              repeatType: "reverse",
+              delay: i * 0.2,
+            }}
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,

@@ -9,6 +9,7 @@ import DotCanvas from './pages/DotCanvas';
 import BalloonFrenzy from './pages/BalloonFrenzy';
 import WordlyWonders from './pages/WordlyWonders';
 import RunawayRobot from './pages/RunawayRobot';
+import EchoRunner from './pages/EchoRunner';
 
 const queryClient = new QueryClient();
 
@@ -25,6 +26,7 @@ function App() {
             <Route path="/balloon-frenzy" element={<BalloonFrenzy />} />
             <Route path="/wordly-wonders" element={<WordlyWonders />} />
             <Route path="/runaway-robot" element={<RunawayRobot />} />
+            <Route path="/echo-runner" element={<EchoRunner />} />
           </Routes>
         </Router>
         <Toaster />
