@@ -7,6 +7,7 @@ import Counter from './pages/Counter';
 import DotCanvas from './pages/DotCanvas';
 import BalloonFrenzy from './pages/BalloonFrenzy';
 import WordlyWonders from './pages/WordlyWonders';
+import RunawayRobot from './pages/RunawayRobot';
 
 const queryClient = new QueryClient();
 
@@ -21,6 +22,7 @@ function App() {
           <Route path="/dot-canvas" element={<DotCanvas />} />
           <Route path="/balloon-frenzy" element={<BalloonFrenzy />} />
           <Route path="/wordly-wonders" element={<WordlyWonders />} />
+          <Route path="/runaway-robot" element={<RunawayRobot />} />
         </Routes>
       </Router>
       <Toaster />

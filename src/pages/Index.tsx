@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Paintbrush, Hash, MousePointer, Bomb, KeySquare } from "lucide-react";
+import { Paintbrush, Hash, MousePointer, Bomb, KeySquare, Zap } from "lucide-react";
 import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
@@ -40,6 +40,13 @@ const experiments = [
     icon: <KeySquare className="w-8 h-8" />,
     path: "/wordly-wonders",
     gradient: "from-yellow-500/20 via-amber-500/20 to-orange-500/20"
+  },
+  {
+    title: "Runaway Robot",
+    description: "Guide your robot through challenging obstacles",
+    icon: <Zap className="w-8 h-8" />,
+    path: "/runaway-robot",
+    gradient: "from-violet-500/20 via-purple-500/20 to-fuchsia-500/20"
   }
 ];
 
