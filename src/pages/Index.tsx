@@ -3,7 +3,8 @@ import { Paintbrush, Hash, MousePointer, Bomb, KeySquare, Zap } from "lucide-rea
 import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
-import { Sun, Moon } from "lucide-react";
+import { Sun, Moon, Github } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const experiments = [
   {
@@ -77,7 +78,56 @@ const Index = () => {
 
   return (
     <div className="min-h-screen p-6 sm:p-12 relative overflow-hidden">
-      {/* Floating particles */}
+      {/* Profile Section */}
+      <motion.div 
+        className="absolute top-4 left-4 flex items-center gap-4"
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.2 }}
+      >
+        <Avatar className="h-16 w-16 ring-2 ring-primary/50 animate-float">
+          <AvatarImage src="https://api.dicebear.com/7.x/pixel-art/svg?seed=lovable" />
+          <AvatarFallback>LV</AvatarFallback>
+        </Avatar>
+        <div className="hidden sm:block">
+          <h3 className="font-bold text-lg bg-gradient-to-r from-primary to-purple-400 bg-clip-text text-transparent">
+            Lovable Player
+          </h3>
+          <p className="text-sm text-muted-foreground">Interactive Explorer</p>
+        </div>
+      </motion.div>
+
+      {/* Theme toggle */}
+      <motion.div 
+        className="absolute top-4 right-4 flex gap-2"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5 }}
+      >
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          className="rounded-full hover:bg-primary/20 border-primary/20"
+        >
+          {theme === "dark" ? 
+            <Sun className="h-5 w-5 animate-float text-yellow-500" /> : 
+            <Moon className="h-5 w-5 animate-float text-primary" />
+          }
+        </Button>
+        <Button
+          variant="outline"
+          size="icon"
+          className="rounded-full hover:bg-primary/20 border-primary/20"
+          asChild
+        >
+          <a href="https://github.com/your-username" target="_blank" rel="noopener noreferrer">
+            <Github className="h-5 w-5" />
+          </a>
+        </Button>
+      </motion.div>
+
+      {/* Floating particles with enhanced glow */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {[...Array(20)].map((_, i) => (
           <FloatingParticle
@@ -86,34 +136,16 @@ const Index = () => {
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
+              filter: 'blur(1px)',
+              boxShadow: '0 0 15px var(--primary)',
             }}
           />
         ))}
       </div>
 
-      {/* Theme toggle */}
-      <motion.div 
-        className="absolute top-4 right-4"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
-      >
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-          className="rounded-full hover:bg-primary/20"
-        >
-          {theme === "dark" ? 
-            <Sun className="h-5 w-5 animate-float text-yellow-500" /> : 
-            <Moon className="h-5 w-5 animate-float text-primary" />
-          }
-        </Button>
-      </motion.div>
-
-      <header className="max-w-4xl mx-auto text-center mb-12 relative z-10">
+      <header className="max-w-4xl mx-auto text-center mb-12 relative z-10 pt-20">
         <motion.h1 
-          className="text-4xl sm:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary via-purple-500 to-pink-500"
+          className="text-4xl sm:text-6xl font-bold mb-4 bg-gradient-to-r from-primary via-purple-500 to-pink-500 bg-clip-text text-transparent"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -145,7 +177,7 @@ const Index = () => {
           >
             <Link to={experiment.path}>
               <motion.div 
-                className={`experiment-card group ${experiment.gradient}`}
+                className={`experiment-card group bg-gradient-to-br ${experiment.gradient}`}
                 whileHover={{ y: -5 }}
                 whileTap={{ scale: 0.98 }}
               >
