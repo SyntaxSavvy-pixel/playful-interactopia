@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { useToast } from "@/components/ui/sonner";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import { Shield, Zap, Trophy, Timer, ArrowLeft } from 'lucide-react';
