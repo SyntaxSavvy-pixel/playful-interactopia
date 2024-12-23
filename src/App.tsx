@@ -21,12 +21,15 @@ function App() {
 
   useEffect(() => {
     // Check initial auth state
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
       setIsAuthenticated(!!session);
-    });
+    };
+    
+    checkAuth();
 
     // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setIsAuthenticated(!!session);
     });
 
@@ -45,7 +48,7 @@ function App() {
           <Routes>
             <Route 
               path="/auth" 
-              element={isAuthenticated ? <Auth /> : <Navigate to="/" />} 
+              element={!isAuthenticated ? <Auth /> : <Navigate to="/" />} 
             />
             <Route 
               path="/" 

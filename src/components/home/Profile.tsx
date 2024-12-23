@@ -1,7 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import {
@@ -25,20 +24,24 @@ export const Profile = () => {
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        const { data, error } = await supabase
-          .from('profiles')
-          .select('username, avatar_url')
-          .eq('id', user.id)
-          .single();
+      try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          const { data, error } = await supabase
+            .from('profiles')
+            .select('username, avatar_url')
+            .eq('id', user.id)
+            .single();
 
-        if (error) {
-          console.error('Error fetching profile:', error);
-          return;
+          if (error) {
+            console.error('Error fetching profile:', error);
+            return;
+          }
+
+          setProfile(data);
         }
-
-        setProfile(data);
+      } catch (error) {
+        console.error('Error in fetchProfile:', error);
       }
     };
 
@@ -46,11 +49,17 @@ export const Profile = () => {
   }, []);
 
   const handleSignOut = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      toast.error('Error signing out');
-    } else {
-      navigate('/auth');
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        toast.error('Error signing out');
+      } else {
+        toast.success('Signed out successfully');
+        navigate('/auth');
+      }
+    } catch (error) {
+      console.error('Error in handleSignOut:', error);
+      toast.error('An unexpected error occurred');
     }
   };
 
