@@ -45,7 +45,7 @@ function App() {
           <Routes>
             <Route 
               path="/auth" 
-              element={isAuthenticated ? <Navigate to="/" /> : <Auth />} 
+              element={isAuthenticated ? <Auth /> : <Navigate to="/" />} 
             />
             <Route 
               path="/" 
